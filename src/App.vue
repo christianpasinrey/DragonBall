@@ -3,7 +3,7 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
-  <header class="bg-white dark:bg-slate-700 flex w-full items-center content-center align-middle px-6 py-3 sticky top-0 left-0 right-0">
+  <header class="bg-white dark:bg-slate-700 flex w-full items-center content-center align-middle px-6 py-3 sticky top-0 left-0 right-0 z-[999]">
     <div class="logo-wrapper">
       <img 
         alt="Dragon ball wallpaper" 
