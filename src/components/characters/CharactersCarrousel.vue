@@ -5,6 +5,7 @@
 
     const { getCharacters } = DbApi();
 
+    const timeout = ref(null);
     const limit = ref<number>(4);
     const characters = ref<Character[]>([]);
     const links = ref([
@@ -29,6 +30,10 @@
         }else{
             limit.value = 4;
         }
+        clearTimeout(timeout.value);
+        timeout.value = setTimeout(() => {
+            fetchCharacters();
+        }, 600);
     }
 
     const fetchCharacters = async () => {
@@ -100,7 +105,7 @@
         @before-leave="beforeLeave"
         >
             <div v-if="characters.length" class="flex flex-wrap list-none justify-start items-center content-center relative">
-                <div v-for="character in characters" :key="character?.id" class="flex w-3/12 px-12">
+                <div v-for="character in characters" :key="character?.id" class="flex w-1/2 md:w-3/12 px-12">
                     <img class="character-img" :src="character?.image" :alt="character?.name" />
                         <!-- <router-link :to="{ name: 'Character', params: { id: character.id } }">
                             {{ character.name }}
