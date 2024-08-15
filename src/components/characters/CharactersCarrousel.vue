@@ -25,7 +25,9 @@
     });
 
     const handleResize = () => {
-        if(window.innerWidth < 1024){
+        if(window.innerWidth < 400){
+            limit.value = 1;
+        }else if(window.innerWidth < 1024){
             limit.value = 2;
         }else{
             limit.value = 4;
@@ -105,7 +107,7 @@
         @before-leave="beforeLeave"
         >
             <div v-if="characters.length" class="flex flex-wrap list-none justify-start items-center content-center relative">
-                <div v-for="character in characters" :key="character?.id" class="flex w-1/2 md:w-3/12 px-12">
+                <div v-for="character in characters" :key="character?.id" class="flex xs:w-full sm:w-1/2 lg:w-3/12 px-12">
                     <img class="character-img" :src="character?.image" :alt="character?.name" />
                         <!-- <router-link :to="{ name: 'Character', params: { id: character.id } }">
                             {{ character.name }}
