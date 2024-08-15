@@ -6,8 +6,14 @@
 </script>
 
 <template>
-  <main class="relative flex flex-col justify-center min-h-[93dvh] items-center content-center align-middle bg-transparent">
-    <img width="100%" object-fit="cover" class="absolute top-0 left-0 z-[-1] opacity-40" src="@/assets/img/db-goku-transformations-2.webp"/>
+  <main class="relative overflow-hidden flex flex-col justify-center min-h-[93dvh] items-center content-center align-middle bg-transparent">
+    <div class="absolute inset-0 z-[-1] overflow-hidden">
+      <img
+        class="w-full h-full object-cover opacity-40"
+        src="@/assets/img/db-goku-transformations-2.webp"
+        alt="Dragon Ball background"
+      />
+    </div>
   
     <div class="flex flex-col items-center content-center align-middle gap-6">
       <h1 class="text-4xl font-bold text-gray-800">Welcome to the Dragon Ball Universe</h1>
