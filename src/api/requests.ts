@@ -2,8 +2,9 @@ import { CHARACTERS_URL, PLANETS_URL } from "./routes";
 import axios from "axios";
 
 export const DbApi = (()=>{
-    const getCharacters = async ()=>{
-        const response = await axios.get(CHARACTERS_URL);
+    const getCharacters = async (limit:URLSearchParams)=>{
+
+        const response = await axios.get(CHARACTERS_URL, {params:limit});
         return response;
     }
 

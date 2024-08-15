@@ -5,22 +5,88 @@
 
     const { getCharacters } = DbApi();
 
-    const elsForChunk = ref(4);
+    const limit = ref<number>(4);
     const characters = ref<Character[]>([]);
-    const links = ref<string[]>([]);
+    const links = ref([
+        {
+            link: '',
+            key: 'previous'
+        },
+        {
+            link: '',
+            key: 'next'
+        }
+    ]);
+    const moveDirection = ref<string>('next');
+    const meta = ref<object>({
+        currentPage: 1,
+        lastPage: 1
+    });
 
     const handleResize = () => {
         if(window.innerWidth < 1024){
-            elsForChunk.value = 2;
+            limit.value = 2;
         }else{
-            elsForChunk.value = 4;
+            limit.value = 4;
         }
     }
 
+    const fetchCharacters = async () => {
+        let params = new URLSearchParams();
+        params.append('limit', limit.value.toString());
+        params.append('page', meta.value.currentPage);
+        const { data } = await getCharacters(params);
+        characters.value = data.items;
+        //filter links to only have next and previous
+        links.value.find(link => link.key === 'next').link = data.links.next;
+        links.value.find(link => link.key === 'previous').link = data.links.previous;
+        meta.value = data.meta;
+        console.log(links.value);
+    }
+
+    const changePage = async (key: string) => {
+        switch(key){
+            case 'next':
+                meta.value.currentPage++;
+                moveDirection.value = 'next';
+                break;
+            case 'previous':
+                meta.value.currentPage--;
+                moveDirection.value = 'previous';
+                break;
+        }
+    }
+
+    const handlePage = async (key: string) => {
+        characters.value = [];
+        await changePage(key);
+        setTimeout(() => {
+            fetchCharacters();
+        }, 1000);
+    }
+
+    const beforeEnter = (el: HTMLElement) => {
+        let direction = moveDirection.value === 'next' ? '100%' : '-100%';
+        el.style.transform = `translateX(${direction})`;
+    };
+
+    const enter = (el: HTMLElement, done: () => void) => {
+        el.offsetHeight; // trigger reflow
+        el.style.transition = 'transform 1s ease-in-out';
+        el.style.transform = 'translateX(0)';
+        done();
+    };
+
+    const beforeLeave = (el: HTMLElement) => {
+        el.style.transition = 'transform 1s ease-in-out';
+        let direction = moveDirection.value === 'next' ? '-100%' : '100%';
+        el.style.transform = `translateX(${direction})`;
+    };
+
+
     onMounted(async () => {
-        const response = await getCharacters();
-        characters.value = response.data.items;
-        
+        //create URLSearchParams with limit.value
+        await fetchCharacters();
         handleResize();
         window.addEventListener('resize', () => {
             handleResize();
@@ -28,43 +94,85 @@
     });
 </script>
 <template>
-    <div class="flex flex-col justify-center items-center content-center" v-if="characters.length">
-        <div class="flex flex-wrap list-none justify-start items-center content-center">
-            <div v-for="character in characters" :key="character?.id" class="flex w-3/12 px-12">
-                <img class="character-img" :src="character?.image" :alt="character?.name" />
-                <!-- <router-link :to="{ name: 'Character', params: { id: character.id } }">
-                    {{ character.name }}
-                </router-link> -->
+    <div class="flex flex-col justify-center items-center content-center">
+        <transition
+        name="character"
+        @before-enter="beforeEnter"
+        @enter="enter"
+        @before-leave="beforeLeave"
+        >
+            <div v-if="characters.length" class="flex flex-wrap list-none justify-start items-center content-center relative">
+                <div v-for="character in characters" :key="character?.id" class="flex w-3/12 px-12">
+                    <img class="character-img" :src="character?.image" :alt="character?.name" />
+                        <!-- <router-link :to="{ name: 'Character', params: { id: character.id } }">
+                            {{ character.name }}
+                        </router-link> -->
+                </div>
             </div>
+        </transition>
+        <div class="absolute w-screen flex justify-between top-1/2 px-4 md:px-16" v-if="links.some(l=>l.link != '')">
+            <button
+                v-for="(link, index) in links"
+                :key="`link-${index}`"
+                :disabled="link.link === ''"
+                @click="handlePage(link.key)"
+                class="bg-[rgb(255,255,255,0.5)] p-2 rounded-full"
+                >
+                <svg
+                    v-if="link.key === 'previous'"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-chevron-double-left"
+                    viewBox="0 0 16 16"
+                >
+                    <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
+                    <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
+                </svg>
+                <svg v-if="link.key === 'next'" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708"/>
+                    <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708"/>
+                </svg>
+            </button>
         </div>
-    </div>
-    <div v-else>
-        <p>Loading...</p>
     </div>
 </template>
 <style scoped>
-    .characters {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1rem;
-    }
+    .character-wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  transition: transform 0.5s ease-in-out;
+}
 
-    .character-img {
-        width: auto;
-        height: 300px;
-        object-fit: cover;
-        transition: all 0.3s ease-in-out;
-    }
-    
-    .character-img:hover {
-        transform: scale(1.1);
-        filter: drop-shadow(1px 1px 5px #000000);
-    }
+.character-enter-active, .character-leave-active {
+  transition: transform 0.5s ease-in-out;
+}
 
-    @media (width <= 1024px) {
-        .character-img {
-            width: auto;
-            height: 100%;
-        }
-    }
+.character-enter, .character-leave-to /* .character-leave-active in <2.1.8 */ {
+  transform: translateX(100%); /* Ajusta según la dirección de la animación */
+}
+
+.character-leave, .character-enter-to {
+  transform: translateX(-100%);
+}
+
+.character-img {
+  width: 150px;
+  height: auto;
+  object-fit: cover;
+  transition: all 0.3s ease-in-out;
+}
+
+.character-img:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(1px 1px 5px #000000);
+}
+
+@media (max-width: 1024px) {
+  .character-img {
+    width: 100%;
+    height: auto;
+  }
+}
 </style>
