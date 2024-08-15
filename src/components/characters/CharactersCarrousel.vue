@@ -58,11 +58,11 @@
     }
 
     const handlePage = async (key: string) => {
-        characters.value = [];
         await changePage(key);
+        characters.value = [];
         setTimeout(() => {
             fetchCharacters();
-        }, 1000);
+        }, 600);
     }
 
     const beforeEnter = (el: HTMLElement) => {
@@ -72,20 +72,18 @@
 
     const enter = (el: HTMLElement, done: () => void) => {
         el.offsetHeight; // trigger reflow
-        el.style.transition = 'transform 1s ease-in-out';
+        el.style.transition = 'transform 0.8s ease-in-out';
         el.style.transform = 'translateX(0)';
         done();
     };
 
     const beforeLeave = (el: HTMLElement) => {
-        el.style.transition = 'transform 1s ease-in-out';
+        el.style.transition = 'transform 0.8s ease-in-out';
         let direction = moveDirection.value === 'next' ? '-100%' : '100%';
         el.style.transform = `translateX(${direction})`;
     };
 
-
     onMounted(async () => {
-        //create URLSearchParams with limit.value
         await fetchCharacters();
         handleResize();
         window.addEventListener('resize', () => {
@@ -139,40 +137,22 @@
     </div>
 </template>
 <style scoped>
-    .character-wrapper {
-  display: flex;
-  flex-wrap: nowrap;
-  transition: transform 0.5s ease-in-out;
-}
+    .character-img {
+        width: auto;
+        height: 300px;
+        object-fit: contain;
+        transition: all 0.3s ease-in-out;
+    }
 
-.character-enter-active, .character-leave-active {
-  transition: transform 0.5s ease-in-out;
-}
+    .character-img:hover {
+        transform: scale(1.1);
+        filter: drop-shadow(1px 1px 5px #000000);
+    }
 
-.character-enter, .character-leave-to /* .character-leave-active in <2.1.8 */ {
-  transform: translateX(100%); /* Ajusta según la dirección de la animación */
-}
-
-.character-leave, .character-enter-to {
-  transform: translateX(-100%);
-}
-
-.character-img {
-  width: 150px;
-  height: auto;
-  object-fit: cover;
-  transition: all 0.3s ease-in-out;
-}
-
-.character-img:hover {
-  transform: scale(1.1);
-  filter: drop-shadow(1px 1px 5px #000000);
-}
-
-@media (max-width: 1024px) {
-  .character-img {
-    width: 100%;
-    height: auto;
-  }
-}
+    @media (max-width: 1024px) {
+        .character-img {
+            width: auto;
+            height: 300px;
+        }
+    }
 </style>
