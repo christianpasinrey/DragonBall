@@ -3,7 +3,7 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
-  <header class="flex w-full items-center content-center align-middle px-6 py-3">
+  <header class="bg-white dark:bg-slate-700 flex w-full items-center content-center align-middle px-6 py-3 sticky top-0 left-0 right-0">
     <div class="logo-wrapper">
       <img 
         alt="Dragon ball wallpaper" 
@@ -11,8 +11,8 @@ import { RouterLink, RouterView } from 'vue-router'
         src="@/assets/img/db-logo.png" />
     </div>
     <nav class="flex ml-auto w-fit gap-6">
-      <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/about">About</RouterLink>
+      <RouterLink class="dark:text-white" to="/">Home</RouterLink>
+      <RouterLink class="dark:text-white" to="/about">About</RouterLink>
     </nav>   
   </header>
 

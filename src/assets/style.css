@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+    .bg-clip-text-fix {
+        padding-bottom: 0.1em;
+        margin-bottom: -0.05em;
+        background-position: center 0.05em;
+    }
+}
