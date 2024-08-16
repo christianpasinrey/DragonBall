@@ -1,6 +1,9 @@
-# DragonBall
+# DragonBall Vue 3 fan-page
 
-This template should help get you started developing with Vue 3 in Vite.
+Clone the repository:
+<code>
+    git clone https://github.com/christianpasinrey/DragonBall.git
+</code>
 
 ## Recommended IDE Setup
 
