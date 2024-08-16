@@ -94,22 +94,22 @@
         <button @click.prevent="emits('unselectCharacter')" class="absolute top-2 left-2">
             &times;
         </button>
+        <button class="absolute flex items-center content-center align-middle text-center top-[45%] left-4 rounded-full bg-[rgb(255,255,255,0.5)] h-fit w-fit p-1.5" 
+            @click.prevent="prevTransformation" 
+            v-if="currentImageIndex != 0">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-chevron-left w-3 h-3" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
+            </svg>
+        </button>
+        <button class="absolute flex items-center content-center align-middle text-center top-[45%] right-4 rounded-full bg-[rgb(255,255,255,0.5)] h-fit w-fit p-1.5" 
+            @click.prevent="nextTransformation" 
+            v-if="currentImageIndex != charImages.length - 1">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-chevron-right w-3 h-3" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+            </svg>
+        </button>
         <div class="character-image">
-            <button class="absolute flex items-center content-center align-middle text-center left-4 rounded-full bg-[rgb(255,255,255,0.5)] h-fit w-fit p-1.5" 
-                @click.prevent="prevTransformation" 
-                v-if="currentImageIndex != 0">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-chevron-left w-3 h-3" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
-                </svg>
-            </button>
             <img ref="charImage" :src="currentImage" :alt="char?.name" />
-            <button class="absolute flex items-center content-center align-middle text-center right-4 rounded-full bg-[rgb(255,255,255,0.5)] h-fit w-fit p-1.5" 
-                @click.prevent="nextTransformation" 
-                v-if="currentImageIndex != charImages.length - 1">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-chevron-right w-3 h-3" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
-                </svg>
-            </button>
         </div>
         <div class="character-info">
             <h3 class="character-name">{{ charNames[currentImageIndex] }}</h3>
