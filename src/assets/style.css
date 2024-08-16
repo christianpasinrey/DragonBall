@@ -9,3 +9,12 @@
         background-position: center 0.05em;
     }
 }
+
+/* Add font of assets/fonts/saiyan_sans */
+@font-face {
+    font-family: 'Saiyan Sans';
+    src: url('./fonts/saiyan_sans/Saiyan-Sans.ttf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
