@@ -120,7 +120,7 @@
         >
             <div v-if="planets.length" class="flex flex-wrap list-none justify-start items-center content-center relative">
                 <div v-for="planet in planets" :key="planet?.id"
-                    class="flex xs:w-full sm:w-1/2 lg:w-3/12 px-12">
+                    class="flex xs:w-full sm:w-1/2 md:3/12 lg:w-4/12 px-12">
                     <PlanetComponent 
                         :planet="planet"
                         />

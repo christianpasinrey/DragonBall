@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useGlobalStore } from '@/stores/global';
 import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
@@ -29,5 +30,13 @@ const router = createRouter({
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  // eslint-disable-next-line no-console
+  if(useGlobalStore().menuState){
+    useGlobalStore().toggleMenu();
+  }
+  next()
+});
 
 export default router
