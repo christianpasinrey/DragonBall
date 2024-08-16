@@ -94,12 +94,12 @@
         el.style.transform = `translateX(${direction})`;
     };
 
-    const handleSelectPlanet = (character: Character | null) => {
+    const handleSelectPlanet = (planet: Planet | null) => {
         //if click if outside the selected character, close it
-        if(selectedPlanet.value === character){
+        if(selectedPlanet.value === planet){
             selectedPlanet.value = null;
         }else{
-            selectedPlanet.value = character;
+            selectedPlanet.value = planet;
         }
     }
 
