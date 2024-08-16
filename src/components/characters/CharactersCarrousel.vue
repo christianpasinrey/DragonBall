@@ -129,13 +129,13 @@ import { clear } from 'console';
     });
 </script>
 <template>
-    <div class="flex flex-col justify-center items-center content-center">
+    <div class="flex flex-col justify-center items-center content-center w-full gap-4">
         <input type="search" placeholder="Buscar personaje" class="w-full p-2 rounded-md" v-model="searchstring" @input.prevent="handleSearchCharacter"/>
         <transition
-        name="character"
-        @before-enter="beforeEnter"
-        @enter="enter"
-        @before-leave="beforeLeave"
+            name="character"
+            @before-enter="beforeEnter"
+            @enter="enter"
+            @before-leave="beforeLeave"
         >
             <div v-if="characters.length" class="flex flex-wrap list-none justify-start items-center content-center relative">
                 <div v-for="character in characters" :key="character?.id"
