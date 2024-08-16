@@ -9,7 +9,7 @@
             <GithubIcon/>
         </a>Agradecimientos al servicio
         <a href="https://web.dragonball-api.com/" class="hover:scale-110 transition-all ease-in-out duration-300">
-            <img src="@/assets/img/logo_dragonballapi.webp" height="98" width="98"> 
+            <img src="@/assets/img/logo_dragonballapi.webp" height="98" width="98" alt="DB API logo"> 
         </a>
         de &nbsp;
         <a class="text-orange-500 hover:text-yellow-600" href="https://www.linkedin.com/in/antonio-alvarez-lopez/">Antonio Alvarez Lopez</a></p>

@@ -2,12 +2,14 @@
     import { ref, onMounted, computed, defineAsyncComponent } from 'vue'
     import type { Character } from '../../types/character'
     import { DbApi } from '../../api/requests'
+import { clear } from 'console';
 
     const CharacterComponent = defineAsyncComponent(() => import('./CharacterComponent.vue'));
     const { getCharacters } = DbApi();
 
     const timeout = ref<any>(null);
     const limit = ref<number>(1);
+    const searchstring = ref<string>('');
     const characters = ref<Character[]>([]);
     const selectedCharacter = ref<Character | null>(null);
     const links = ref<any>([
@@ -26,7 +28,7 @@
         lastPage: 1
     });
 
-    const handleResize = () => {
+    const setLimit = () => {
         if(window.innerWidth < 480){
             limit.value = 1;
         }else if(window.innerWidth < 1024){
@@ -34,6 +36,10 @@
         }else{
             limit.value = 4;
         }
+    }
+
+    const handleResize = () => {
+        setLimit();
         clearTimeout(timeout.value);
         timeout.value = setTimeout(() => {
             fetchCharacters();
@@ -42,15 +48,27 @@
 
     const fetchCharacters = async () => {
         let params = new URLSearchParams();
-        params.append('limit', limit.value.toString());
-        params.append('page', meta.value.currentPage);
+        
+        if(searchstring.value !== ''){
+            params.append('name', searchstring.value);
+        }else{
+            params.append('limit', limit.value.toString());
+            params.append('page', meta.value.currentPage);
+        }
         const { data } = await getCharacters(params);
-        characters.value = data.items;
-        //filter links to only have next and previous
-        links.value.find((link: { key: string; }) => link.key === 'next').link = data.links.next;
-        links.value.find((link: { key: string; }) => link.key === 'previous').link = data.links.previous;
-        meta.value = data.meta;
-        console.log(links.value);
+        if(searchstring.value === ''){
+            
+            characters.value = data.items;
+            //filter links to only have next and previous
+            links.value.find((link: { key: string; }) => link.key === 'next').link = data.links.next;
+            links.value.find((link: { key: string; }) => link.key === 'previous').link = data.links.previous;
+            meta.value = data.meta;
+            console.log(links.value);
+        }else{
+            characters.value = data;
+            console.log(characters.value);
+        }
+        
     }
 
     const changePage = async (key: string) => {
@@ -93,10 +111,14 @@
     };
 
     const handleSelectCharacter = (character: Character | null) => {
-        //if click if outside the selected character, close it
-       
-        selectedCharacter.value = character;
-        
+        selectedCharacter.value = character;   
+    }
+
+    const handleSearchCharacter = async () => {
+        clearTimeout(timeout.value);
+        timeout.value = setTimeout(() => {
+            fetchCharacters();
+        }, 600);
     }
 
     onMounted(async () => {
@@ -108,6 +130,7 @@
 </script>
 <template>
     <div class="flex flex-col justify-center items-center content-center">
+        <input type="search" placeholder="Buscar personaje" class="w-full p-2 rounded-md" v-model="searchstring" @input.prevent="handleSearchCharacter"/>
         <transition
         name="character"
         @before-enter="beforeEnter"
@@ -116,7 +139,12 @@
         >
             <div v-if="characters.length" class="flex flex-wrap list-none justify-start items-center content-center relative">
                 <div v-for="character in characters" :key="character?.id"
-                    class="flex xs:w-full sm:w-1/2 lg:w-3/12 px-12">
+                    class="flex px-12"
+                    :class="{
+                        'xs:w-full sm:w-1/2 lg:w-3/12 ': characters.length !== 1,
+                        'w-full': characters.length === 1,
+                    }"
+                    >
                     <img class="character-img cursor-pointer" @click.prevent="handleSelectCharacter(character)" :src="character?.image" :alt="character?.name" />
                 </div>
             </div>

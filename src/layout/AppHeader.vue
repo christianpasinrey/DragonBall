@@ -51,8 +51,8 @@ const global = useGlobalStore();
   }
 
   header{
-    background: linear-gradient(135deg, rgba(255,165,0,0.8), rgba(255,69,0,0.8));
-    opacity: 0.8;
+    background: linear-gradient(135deg, rgba(255,165,0,1) 0%, rgb(251, 94, 37) 50%, rgb(39, 10, 0));
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
   }
 
   @keyframes fade {
