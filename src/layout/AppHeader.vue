@@ -15,9 +15,9 @@ const global = useGlobalStore();
         </div>
 
         <nav class="hidden md:flex ml-auto w-fit gap-6">
-            <RouterLink class="dark:text-white" to="/">Home</RouterLink>
-            <RouterLink class="dark:text-white" to="/characters">Characters</RouterLink>
-            <RouterLink class="dark:text-white" to="/planets">Planets</RouterLink>
+            <RouterLink class="dark:text-white" to="/">Inicio</RouterLink>
+            <RouterLink class="dark:text-white" to="/characters">Personajes</RouterLink>
+            <RouterLink class="dark:text-white" to="/planets">Planetas</RouterLink>
             <RouterLink class="dark:text-white" to="/about">About</RouterLink>
         </nav>
 
@@ -26,12 +26,13 @@ const global = useGlobalStore();
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
             </svg>
         </button>
+        
         <transition name="fade">
           <nav v-if="global.showingMenu" class="md:hidden absolute inset-0 flex flex-col justify-evenly gap-2 text-center w-screen h-screen bg-[rgb(255,255,255,0.7)] transition-all ease-in-out duration-300">
-              <RouterLink to="/">Home</RouterLink>
-              <RouterLink to="/characters">Characters</RouterLink>
-              <RouterLink to="/planets">Planets</RouterLink>
-              <RouterLink to="/about">About</RouterLink>
+              <RouterLink class="text-lg uppercase" to="/">inicio</RouterLink>
+              <RouterLink class="text-lg uppercase" to="/characters">personajes</RouterLink>
+              <RouterLink class="text-lg uppercase" to="/planets">planetas</RouterLink>
+              <RouterLink class="text-lg uppercase" to="/about">About</RouterLink>
               <button @click.prevent="global.toggleMenu" class="text-black absolute top-6 right-6">
                   <svg class="w-8 h-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
