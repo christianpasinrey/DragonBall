@@ -1,6 +1,5 @@
-#<a href="https://db.christianpasinrey.es"> DragonBall Vue 3 fan-page</a>
+#<a href="https://db.christianpasinrey.es" style="font-size:32px;"> DragonBall Vue 3 fan-page</a>
 
-<a href="https://db.christianpasinrey.es">Webpage in production</a><br>
 Clone the repository:
 <code>
     git clone https://github.com/christianpasinrey/DragonBall.git
