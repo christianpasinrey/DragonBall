@@ -29,10 +29,10 @@ const global = useGlobalStore();
         
         <transition name="fade">
           <nav v-if="global.showingMenu" class="md:hidden absolute inset-0 flex flex-col justify-evenly gap-2 text-center w-screen h-screen bg-[rgb(255,255,255,0.7)] transition-all ease-in-out duration-300">
-              <RouterLink class="text-lg uppercase" to="/">inicio</RouterLink>
-              <RouterLink class="text-lg uppercase" to="/characters">personajes</RouterLink>
-              <RouterLink class="text-lg uppercase" to="/planets">planetas</RouterLink>
-              <RouterLink class="text-lg uppercase" to="/about">About</RouterLink>
+              <RouterLink class="text-lg uppercase font-semibold" to="/">inicio</RouterLink>
+              <RouterLink class="text-lg uppercase font-semibold" to="/characters">personajes</RouterLink>
+              <RouterLink class="text-lg uppercase font-semibold" to="/planets">planetas</RouterLink>
+              <RouterLink class="text-lg uppercase font-semibold" to="/about">About</RouterLink>
               <button @click.prevent="global.toggleMenu" class="text-black absolute top-6 right-6">
                   <svg class="w-8 h-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
