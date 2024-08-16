@@ -104,7 +104,6 @@
     }
 
     onMounted(async () => {
-        await fetchPlanets();
         handleResize();
         window.addEventListener('resize', () => {
             handleResize();
