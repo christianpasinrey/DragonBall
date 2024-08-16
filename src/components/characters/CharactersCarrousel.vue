@@ -7,7 +7,7 @@
     const { getCharacters } = DbApi();
 
     const timeout = ref<any>(null);
-    const limit = ref<number>(4);
+    const limit = ref<number>(1);
     const characters = ref<Character[]>([]);
     const selectedCharacter = ref<Character | null>(null);
     const links = ref<any>([
@@ -100,7 +100,6 @@
     }
 
     onMounted(async () => {
-        await fetchCharacters();
         handleResize();
         window.addEventListener('resize', () => {
             handleResize();
