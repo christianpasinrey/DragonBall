@@ -10,7 +10,7 @@
     const limit = ref<number>(1);
     const searchstring = ref<string>('');
     const characters = ref<Character[]>([]);
-    const chunkedCharacters = ref<Character[][]>([]);
+    const chunkedCharacters = ref<any>([]);
     const selectedCharacter = ref<any>(null);
     const currentCharIndex = ref<number>(0);
     const links = ref<any>([
@@ -77,7 +77,7 @@
         }else{
             chunkedCharacters.value = handleChunks(data);
             characters.value = chunkedCharacters.value[0];
-            currentIndex.value = 0;
+            currentCharIndex.value = 0;
             console.log(characters.value);
         }
     }
@@ -190,7 +190,7 @@
                 :key="`link-${index}`"
                 :disabled="link.link === ''"
                 @click="handlePage(link.key)"
-                class="bg-[rgb(255,255,255,0.5)] p-2 rounded-full"
+                class="bg-[rgb(0,0,0,0.3)] p-2 rounded-full"
                 >
                 <svg
                     v-if="link.key === 'previous'"
