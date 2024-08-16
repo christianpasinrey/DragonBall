@@ -1,13 +1,15 @@
 <script setup lang="ts">
-    import { ref, onMounted, computed } from 'vue'
+    import { ref, onMounted, computed, defineAsyncComponent } from 'vue'
     import type { Character } from '../../types/character'
     import { DbApi } from '../../api/requests'
 
+    const CharacterComponent = defineAsyncComponent(() => import('./CharacterComponent.vue'));
     const { getCharacters } = DbApi();
 
     const timeout = ref(null);
     const limit = ref<number>(4);
     const characters = ref<Character[]>([]);
+    const selectedCharacter = ref<Character | null>(null);
     const links = ref([
         {
             link: '',
@@ -90,6 +92,15 @@
         el.style.transform = `translateX(${direction})`;
     };
 
+    const handleSelectCharacter = (character: Character | null) => {
+        //if click if outside the selected character, close it
+        if(selectedCharacter.value === character){
+            selectedCharacter.value = null;
+        }else{
+            selectedCharacter.value = character;
+        }
+    }
+
     onMounted(async () => {
         await fetchCharacters();
         handleResize();
@@ -107,14 +118,19 @@
         @before-leave="beforeLeave"
         >
             <div v-if="characters.length" class="flex flex-wrap list-none justify-start items-center content-center relative">
-                <div v-for="character in characters" :key="character?.id" class="flex xs:w-full sm:w-1/2 lg:w-3/12 px-12">
-                    <img class="character-img" :src="character?.image" :alt="character?.name" />
-                        <!-- <router-link :to="{ name: 'Character', params: { id: character.id } }">
-                            {{ character.name }}
-                        </router-link> -->
+                <div v-for="character in characters" :key="character?.id"
+                    class="flex xs:w-full sm:w-1/2 lg:w-3/12 px-12">
+                    <img class="character-img cursor-pointer" @click.prevent="handleSelectCharacter(character)" :src="character?.image" :alt="character?.name" />
                 </div>
             </div>
         </transition>
+
+        <CharacterComponent 
+            v-if="selectedCharacter" 
+            :character="selectedCharacter" 
+            @unselectCharacter="handleSelectCharacter(null)"
+            />
+            
         <div class="absolute w-screen flex justify-between top-1/2 px-4 md:px-16" v-if="links.some(l=>l.link != '')">
             <button
                 v-for="(link, index) in links"
