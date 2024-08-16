@@ -20,10 +20,9 @@ export const DbApi = (()=>{
         return characters;
     }
 
-    const getPlanets = async ()=>{
-        const response = await fetch(PLANETS_URL);
-        const planets = await response.json();
-        return planets;
+    const getPlanets = async (limit:URLSearchParams)=>{
+        const response = await axios.get(PLANETS_URL, {params:limit});
+        return response;
     }
 
     const getPlanet = async (id:number)=>{

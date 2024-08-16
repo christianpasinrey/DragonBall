@@ -1,7 +1,9 @@
 <script setup lang="ts">
-    import { ref, onMounted, computed } from 'vue'
+    import { ref, onBeforeMount, computed } from 'vue'
     import type { Character } from '../../types/character'
+    import { DbApi } from '@/api/requests';
 
+    const { getCharacter } = DbApi();
     const props = defineProps({
         character: {
             type: Object as () => Character,
@@ -9,23 +11,24 @@
         }
     });
 
+    const char = ref<Character | null>(null);
     const emits = defineEmits(['unselectCharacter']);
+    const showTransformations = ref<boolean>(false);
+    const charImages = ref<string[]>([]);
+    const charNames = ref<string[]>([]);
+    const currentImageIndex = ref<number>(0);
+    const currentImage = computed(() => charImages.value[currentImageIndex.value]);
+    const charHasTransformations = computed(() => char.value?.transformations && char.value.transformations.length ? true : false);
 
-    const kiEmptyBalls = ref<HTMLElement | null>(null);
-    const kiFilledBalls = ref<HTMLElement | null>(null);
-    const maxKiEmptyBalls = ref<HTMLElement | null>(null);
-    const maxKiFilledBalls = ref<HTMLElement | null>(null);
-    
     function setupAndUpdateKiBar() {
-        const ki = parseFloat(props.character.ki);
-        const maxKiString = props.character.maxKi;
+        const ki = parseFloat(char.value?.ki);
+        const maxKiString = char.value?.maxKi;
         const maxKi = parseFloat(maxKiString.split(' ')[0]) * 1e24;
         console.log(ki, maxKi);
         const kiBar = document.getElementById('current-ki');
         const dragonBallsContainer = document.getElementById('dragon-balls');
         const kiValue = document.getElementById('ki-value');
-        const maxKiValue = document.getElementById('max-ki-value');
-
+        
     // Limpiar el contenedor de esferas del dragón
         dragonBallsContainer.innerHTML = '';
 
@@ -50,31 +53,75 @@
                 ball.classList.remove('active');
             }
         });
-
-        kiValue.textContent = ki.toLocaleString();
-        maxKiValue.textContent = maxKi.toLocaleString();
     }
 
-    onMounted(() => {
+    const handleLoadCharacter = async() => {
+        const response = await getCharacter(props.character.id);
+        char.value = response;
+        charImages.value = [];
+        charNames.value = [];
+        charImages.value.push(response.image);
+        charNames.value.push(response.name);
+        if (charHasTransformations.value) {
+            response.transformations.forEach((transformation:any) => {
+                charImages.value.push(transformation.image);
+                charNames.value.push(transformation.name);
+            });
+        }
+    }
+
+    const prevTransformation = () => {
+        if (currentImageIndex.value > 0) {
+            currentImageIndex.value--;
+            char.value.ki = char.value.transformations[currentImageIndex.value].ki;
+        }
+    }
+
+    const nextTransformation = () => {
+        if (currentImageIndex.value < charImages.value.length - 1) {
+            currentImageIndex.value++;
+            char.value.ki = char.value.transformations[currentImageIndex.value + 1].ki;
+        }
+    }
+
+    onBeforeMount(async() => {
+        await handleLoadCharacter();
         setupAndUpdateKiBar();
     });
 </script>
 <template>
-    <div class="character-card" @click.prevent="emits('unselectCharacter')">
+    <div class="character-card" v-if="!showTransformations">
+        <button @click.prevent="emits('unselectCharacter')" class="absolute top-2 left-2">
+            &times;
+        </button>
         <div class="character-image">
-            <img :src="character.image" :alt="character.name" />
+            <button class="absolute flex items-center content-center align-middle text-center left-4 rounded-full bg-[rgb(255,255,255,0.5)] h-fit w-fit p-1.5" 
+                @click.prevent="prevTransformation" 
+                v-if="currentImageIndex != 0">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-chevron-left w-3 h-3" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
+                </svg>
+            </button>
+            <img ref="charImage" :src="currentImage" :alt="char?.name" />
+            <button class="absolute flex items-center content-center align-middle text-center right-4 rounded-full bg-[rgb(255,255,255,0.5)] h-fit w-fit p-1.5" 
+                @click.prevent="nextTransformation" 
+                v-if="currentImageIndex != charImages.length - 1">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-chevron-right w-3 h-3" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+                </svg>
+            </button>
         </div>
         <div class="character-info">
-            <h3 class="character-name">{{ character.name }}</h3>
+            <h3 class="character-name">{{ charNames[currentImageIndex] }}</h3>
             <div id="ki-bar">
                 <div id="current-ki"></div>
                 <div id="dragon-balls"></div>
             </div>
             <div class="ki-values">
-                <p>Ki actual: <span id="ki-value"></span></p>
-                <p>Ki máximo: <span id="max-ki-value"></span></p>
+                <p>Ki actual: <span id="ki-value">{{ char?.ki }}</span></p>
+                <p>Ki máximo: <span id="max-ki-value">{{ char.maxKi }}</span></p>
             </div>
-            <p class="character-description">{{ character.description }}</p>
+            <p class="character-description">{{ char?.description }}</p>
         </div>
     </div>
 </template>

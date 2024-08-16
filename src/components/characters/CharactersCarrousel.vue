@@ -6,11 +6,11 @@
     const CharacterComponent = defineAsyncComponent(() => import('./CharacterComponent.vue'));
     const { getCharacters } = DbApi();
 
-    const timeout = ref(null);
+    const timeout = ref<any>(null);
     const limit = ref<number>(4);
     const characters = ref<Character[]>([]);
     const selectedCharacter = ref<Character | null>(null);
-    const links = ref([
+    const links = ref<any>([
         {
             link: '',
             key: 'previous'
@@ -21,7 +21,7 @@
         }
     ]);
     const moveDirection = ref<string>('next');
-    const meta = ref<object>({
+    const meta = ref<any>({
         currentPage: 1,
         lastPage: 1
     });
@@ -47,8 +47,8 @@
         const { data } = await getCharacters(params);
         characters.value = data.items;
         //filter links to only have next and previous
-        links.value.find(link => link.key === 'next').link = data.links.next;
-        links.value.find(link => link.key === 'previous').link = data.links.previous;
+        links.value.find((link: { key: string; }) => link.key === 'next').link = data.links.next;
+        links.value.find((link: { key: string; }) => link.key === 'previous').link = data.links.previous;
         meta.value = data.meta;
         console.log(links.value);
     }
@@ -94,11 +94,9 @@
 
     const handleSelectCharacter = (character: Character | null) => {
         //if click if outside the selected character, close it
-        if(selectedCharacter.value === character){
-            selectedCharacter.value = null;
-        }else{
-            selectedCharacter.value = character;
-        }
+       
+        selectedCharacter.value = character;
+        
     }
 
     onMounted(async () => {
@@ -130,7 +128,7 @@
             :character="selectedCharacter" 
             @unselectCharacter="handleSelectCharacter(null)"
             />
-            
+
         <div class="absolute w-screen flex justify-between top-1/2 px-4 md:px-16" v-if="links.some(l=>l.link != '')">
             <button
                 v-for="(link, index) in links"
