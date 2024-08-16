@@ -1,10 +1,12 @@
 <script setup lang="ts">
+    import { defineAsyncComponent } from 'vue';
+    const GithubIcon = defineAsyncComponent(() => import('@/components/icons/GithubIcon.vue'));
 </script>
 <template>
      <footer class="absolute bottom-0 left-0 right-0">
         <p class="text-center flex justify-center items-center content-center align-middle text-white bg-black py-4">
-        <a href="https://github.com/christianpasinrey/DragonBall" target="_blank" class="fixed bottom-4 right-4 hidden sm:flex">
-            <img src="@/assets/img/github-mark.svg" alt="Github icon" class="w-12 h-12" />
+        <a href="https://github.com/christianpasinrey/DragonBall" target="_blank" class="fixed bottom-5 right-5 hidden sm:flex text-white hover:text-orange-400 transition-all ease-in-out duration-300">
+            <GithubIcon/>
         </a>Agradecimientos al servicio
         <a href="https://web.dragonball-api.com/" class="hover:scale-110 transition-all ease-in-out duration-300">
             <img src="@/assets/img/logo_dragonballapi.webp" height="98" width="98"> 

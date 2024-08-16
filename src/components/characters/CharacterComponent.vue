@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { ref, onBeforeMount, computed } from 'vue'
+    import { ref, onBeforeMount, onMounted, computed, onBeforeUnmount } from 'vue'
     import type { Character } from '../../types/character'
     import { DbApi } from '@/api/requests';
 
@@ -16,44 +16,13 @@
     const showTransformations = ref<boolean>(false);
     const charImages = ref<string[]>([]);
     const charNames = ref<string[]>([]);
-    const currentImageIndex = ref<number>(0);
-    const currentImage = computed(() => charImages.value[currentImageIndex.value]);
+    const charKis = ref<number[]>([]);
+    const currentCharIndex = ref<number>(0);
+    const currentImage = computed(() => charImages.value[currentCharIndex.value]);
+    const currentName = computed(() => charNames.value[currentCharIndex.value]);
+    const currentKi = computed(() => charKis.value[currentCharIndex.value]);
+
     const charHasTransformations = computed(() => char.value?.transformations && char.value.transformations.length ? true : false);
-
-    function setupAndUpdateKiBar() {
-        const ki = parseFloat(char.value?.ki);
-        const maxKiString = char.value?.maxKi;
-        const maxKi = parseFloat(maxKiString.split(' ')[0]) * 1e24;
-        console.log(ki, maxKi);
-        const kiBar = document.getElementById('current-ki');
-        const dragonBallsContainer = document.getElementById('dragon-balls');
-        const kiValue = document.getElementById('ki-value');
-        
-    // Limpiar el contenedor de esferas del dragón
-        dragonBallsContainer.innerHTML = '';
-
-    // Crear las 7 esferas del dragón
-        for (let i = 0; i < 7; i++) {
-            const ball = document.createElement('div');
-            ball.className = 'dragon-ball';
-            dragonBallsContainer.appendChild(ball);
-        }
-
-        const dragonBalls = document.querySelectorAll('.dragon-ball');
-
-    // Actualizar la barra y las esferas
-        const percentage = (ki / maxKi) * 100;
-        kiBar.style.width = `${Math.min(percentage, 100)}%`;
-
-        const activeBalls = Math.ceil((percentage / 100) * 7);
-        dragonBalls.forEach((ball, index) => {
-            if (index < activeBalls) {
-                ball.classList.add('active');
-            } else {
-                ball.classList.remove('active');
-            }
-        });
-    }
 
     const handleLoadCharacter = async() => {
         const response = await getCharacter(props.character.id);
@@ -62,48 +31,56 @@
         charNames.value = [];
         charImages.value.push(response.image);
         charNames.value.push(response.name);
+        charKis.value.push(response.ki);
         if (charHasTransformations.value) {
             response.transformations.forEach((transformation:any) => {
                 charImages.value.push(transformation.image);
                 charNames.value.push(transformation.name);
+                charKis.value.push(transformation.ki);
             });
         }
     }
 
     const prevTransformation = () => {
-        if (currentImageIndex.value > 0) {
-            currentImageIndex.value--;
-            char.value.ki = char.value.transformations[currentImageIndex.value].ki;
+        if (currentCharIndex.value > 0) {
+            currentCharIndex.value--;
         }
     }
 
     const nextTransformation = () => {
-        if (currentImageIndex.value < charImages.value.length - 1) {
-            currentImageIndex.value++;
-            char.value.ki = char.value.transformations[currentImageIndex.value + 1].ki;
+        if (currentCharIndex.value < charImages.value.length - 1) {
+            currentCharIndex.value++;
+        }
+    }
+
+    const handleClickOutside = (e:MouseEvent) => {
+        e.stopPropagation();
+        if (!document.querySelector('.character-card')?.contains(e.target as Node)) {
+           document.getElementById('close-btn')?.click();
+        }else{
+            e.stopPropagation();
         }
     }
 
     onBeforeMount(async() => {
         await handleLoadCharacter();
-        setupAndUpdateKiBar();
     });
 </script>
 <template>
     <div class="character-card" v-if="!showTransformations">
-        <button @click.prevent="emits('unselectCharacter')" class="absolute top-2 left-2">
+        <button @click.prevent="emits('unselectCharacter')" class="absolute top-4 left-4 text-lg" id="close-btn">
             &times;
         </button>
         <button class="absolute flex items-center content-center align-middle text-center top-[45%] left-4 rounded-full bg-[rgb(255,255,255,0.5)] h-fit w-fit p-1.5" 
             @click.prevent="prevTransformation" 
-            v-if="currentImageIndex != 0">
+            v-if="currentCharIndex != 0">
             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-chevron-left w-3 h-3" viewBox="0 0 16 16">
                 <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
             </svg>
         </button>
         <button class="absolute flex items-center content-center align-middle text-center top-[45%] right-4 rounded-full bg-[rgb(255,255,255,0.5)] h-fit w-fit p-1.5" 
             @click.prevent="nextTransformation" 
-            v-if="currentImageIndex != charImages.length - 1">
+            v-if="currentCharIndex != charImages.length - 1">
             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-chevron-right w-3 h-3" viewBox="0 0 16 16">
                 <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
             </svg>
@@ -112,14 +89,10 @@
             <img ref="charImage" :src="currentImage" :alt="char?.name" />
         </div>
         <div class="character-info">
-            <h3 class="character-name">{{ charNames[currentImageIndex] }}</h3>
-            <div id="ki-bar">
-                <div id="current-ki"></div>
-                <div id="dragon-balls"></div>
-            </div>
-            <div class="ki-values">
-                <p>Ki actual: <span id="ki-value">{{ char?.ki }}</span></p>
-                <p>Ki máximo: <span id="max-ki-value">{{ char.maxKi }}</span></p>
+            <h3 class="character-name">{{ currentName }}</h3>
+            <div class="ki-values flex flex-col">
+                <p>Ki actual: <span id="ki-value">{{ currentKi }}</span></p>
+                <p>Ki máximo: <span id="max-ki-value">{{ char?.maxKi }}</span></p>
             </div>
             <p class="character-description">{{ char?.description }}</p>
         </div>
