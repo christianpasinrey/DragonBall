@@ -2,7 +2,6 @@
     import { ref, onMounted, computed, defineAsyncComponent } from 'vue'
     import type { Character } from '../../types/character'
     import { DbApi } from '../../api/requests'
-import { clear } from 'console';
 
     const CharacterComponent = defineAsyncComponent(() => import('./CharacterComponent.vue'));
     const { getCharacters } = DbApi();
@@ -11,7 +10,9 @@ import { clear } from 'console';
     const limit = ref<number>(1);
     const searchstring = ref<string>('');
     const characters = ref<Character[]>([]);
-    const selectedCharacter = ref<Character | null>(null);
+    const chunkedCharacters = ref<Character[][]>([]);
+    const selectedCharacter = ref<any>(null);
+    const currentCharIndex = ref<number>(0);
     const links = ref<any>([
         {
             link: '',
@@ -22,6 +23,7 @@ import { clear } from 'console';
             key: 'next'
         }
     ]);
+    
     const moveDirection = ref<string>('next');
     const meta = ref<any>({
         currentPage: 1,
@@ -46,6 +48,15 @@ import { clear } from 'console';
         }, 600);
     }
 
+    const handleChunks = (data:string[]) => {
+        let chunked = [];
+        let i,j;
+        for (i=0,j=data.length; i<j; i+=limit.value) {
+            chunked.push(data.slice(i,i+limit.value));
+        }
+        return chunked;
+    }
+
     const fetchCharacters = async () => {
         let params = new URLSearchParams();
         
@@ -56,36 +67,53 @@ import { clear } from 'console';
             params.append('page', meta.value.currentPage);
         }
         const { data } = await getCharacters(params);
-        if(searchstring.value === ''){
-            
+        currentCharIndex.value = 0;
+        if(searchstring.value === ''){         
             characters.value = data.items;
-            //filter links to only have next and previous
             links.value.find((link: { key: string; }) => link.key === 'next').link = data.links.next;
             links.value.find((link: { key: string; }) => link.key === 'previous').link = data.links.previous;
             meta.value = data.meta;
             console.log(links.value);
         }else{
-            characters.value = data;
+            chunkedCharacters.value = handleChunks(data);
+            characters.value = chunkedCharacters.value[0];
+            currentIndex.value = 0;
             console.log(characters.value);
         }
-        
     }
 
     const changePage = async (key: string) => {
         switch(key){
             case 'next':
-                meta.value.currentPage++;
-                moveDirection.value = 'next';
+                if(searchstring.value !== ''){
+                    if(currentCharIndex.value < chunkedCharacters.value.length - 1){
+                        currentCharIndex.value++;
+                        characters.value = chunkedCharacters.value[currentCharIndex.value];
+                    }
+                }else{
+                    meta.value.currentPage++;
+                    moveDirection.value = 'next';
+                }
                 break;
             case 'previous':
-                meta.value.currentPage--;
-                moveDirection.value = 'previous';
+                if(searchstring.value !== ''){
+                    if(currentCharIndex.value > 0){
+                        currentCharIndex.value--;
+                        characters.value = chunkedCharacters.value[currentCharIndex.value];
+                    }
+                }else{
+                    meta.value.currentPage--;
+                    moveDirection.value = 'previous';
+                }
                 break;
         }
     }
 
     const handlePage = async (key: string) => {
         await changePage(key);
+        if(searchstring.value !== ''){
+            return;
+        }
         characters.value = [];
         setTimeout(() => {
             fetchCharacters();
