@@ -7,6 +7,13 @@ const global = useGlobalStore();
 </script>
 <template>
     <header class="flex w-full items-center content-center align-middle justify-between px-6 py-3 sticky top-0 left-0 right-0 z-[999]">
+        <nav class="hidden md:flex mr-auto w-fit gap-6">
+            <RouterLink class="text-slate-700 text-3xl font-thin font-saiyan tracking-wider" to="/">Inicio</RouterLink>
+            <RouterLink class="text-slate-700  text-3xl font-thin font-saiyan tracking-wider" to="/characters">Personajes</RouterLink>
+            <RouterLink class="text-slate-700 text-3xl font-thin font-saiyan tracking-wider" to="/planets">Planetas</RouterLink>
+            <!-- <RouterLink class="text-white text-md uppercase font-semibold" to="/about"></RouterLink> -->
+        </nav>
+
         <div class="logo-wrapper">
             <img 
                 alt="Dragon ball logo" 
@@ -14,12 +21,7 @@ const global = useGlobalStore();
                 src="@/assets/img/db-logo.png" />
         </div>
 
-        <nav class="hidden md:flex ml-auto w-fit gap-6">
-            <RouterLink class="text-white" to="/">Inicio</RouterLink>
-            <RouterLink class="text-white" to="/characters">Personajes</RouterLink>
-            <RouterLink class="text-white" to="/planets">Planetas</RouterLink>
-            <RouterLink class="text-white" to="/about">About</RouterLink>
-        </nav>
+       
 
         <button class="md:hidden" @click.prevent="global.toggleMenu">
             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
