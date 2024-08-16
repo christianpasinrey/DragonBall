@@ -15,10 +15,10 @@ const global = useGlobalStore();
         </div>
 
         <nav class="hidden md:flex ml-auto w-fit gap-6">
-            <RouterLink class="dark:text-white" to="/">Inicio</RouterLink>
-            <RouterLink class="dark:text-white" to="/characters">Personajes</RouterLink>
-            <RouterLink class="dark:text-white" to="/planets">Planetas</RouterLink>
-            <RouterLink class="dark:text-white" to="/about">About</RouterLink>
+            <RouterLink class="text-white" to="/">Inicio</RouterLink>
+            <RouterLink class="text-white" to="/characters">Personajes</RouterLink>
+            <RouterLink class="text-white" to="/planets">Planetas</RouterLink>
+            <RouterLink class="text-white" to="/about">About</RouterLink>
         </nav>
 
         <button class="md:hidden" @click.prevent="global.toggleMenu">
