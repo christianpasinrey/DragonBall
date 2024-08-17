@@ -223,12 +223,23 @@
         width: auto;
         height: 300px;
         object-fit: contain;
-        transition: all 0.3s ease-in-out;
+        transition: transform 0.3s ease, filter 0.3s ease;
+        filter: drop-shadow(0 0 5px transparent);
     }
 
     .character-img:hover {
         transform: scale(1.1);
-        filter: drop-shadow(1px 1px 5px #000000);
+        filter: drop-shadow(0 0 15px yellow);
+        animation: saiyanAura 0.5s infinite alternate;
+    }
+
+    @keyframes saiyanAura {
+        0% {
+            filter: drop-shadow(0 0 10px yellow);
+        }
+        100% {
+            filter: drop-shadow(0 0 30px yellow);
+        }
     }
 
     @media (max-width: 1024px) {
