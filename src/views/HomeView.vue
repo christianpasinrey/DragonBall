@@ -18,10 +18,6 @@
   </main>
 </template>
 <style scoped>
-.box{
-  @apply rounded-md p-4;
-  background: linear-gradient(135deg, rgba(255,165,0,1), rgba(255,69,0,1));
-  /* box-shadow: 0 10px 10px rgba(0,0,0,0.3); */
-}
+
 
 </style>

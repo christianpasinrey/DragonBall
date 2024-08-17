@@ -157,7 +157,7 @@
     });
 </script>
 <template>
-    <div class="flex flex-col justify-center items-center content-center w-full gap-4">
+    <div class="flex flex-col justify-center items-center content-center w-screen gap-4">
         <input type="search" placeholder="Buscar personaje" class="w-[300px] p-2 rounded-md border-b bg-[rgb(255,255,255,0.6)] focus:outline-none focus:border-none text-black" v-model="searchstring" @input.prevent="handleSearchCharacter"/>
         <transition
             name="character"
@@ -184,13 +184,13 @@
             @unselectCharacter="handleSelectCharacter(null)"
             />
 
-        <div class="absolute w-screen flex justify-between top-1/2 px-4 md:px-16" v-if="links.some(l=>l.link != '')">
+        <div class="absolute w-full flex justify-between top-1/2 px-4 md:px-8" v-if="links.some(l=>l.link != '')">
             <button
                 v-for="(link, index) in links"
                 :key="`link-${index}`"
                 :disabled="link.link === ''"
                 @click="handlePage(link.key)"
-                class="bg-[rgb(0,0,0,0.3)] p-2 rounded-full"
+                class="bg-[rgb(0,0,0,0.2)] p-2 rounded-full hover:bg-[rgba(230,206,74,0.76)] hover:scale-105 hover:ring-2 hover:ring-offset-1 hover:ring-orange-400 transition-all ease-in-out duration-300"
                 >
                 <svg
                     v-if="link.key === 'previous'"
@@ -204,7 +204,13 @@
                     <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
                     <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
                 </svg>
-                <svg v-if="link.key === 'next'" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
+                <svg v-if="link.key === 'next'" 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    width="16" 
+                    height="16" 
+                    fill="currentColor" 
+                    class="bi bi-chevron-double-right" 
+                    viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708"/>
                     <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708"/>
                 </svg>

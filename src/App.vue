@@ -6,7 +6,7 @@
 </script>
 
 <template>
-  <AppBackground/>
+  <!-- <AppBackground/> -->
   <AppHeader/>
   <AppBody/>
   <AppFooter/>
