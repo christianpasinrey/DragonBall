@@ -89,7 +89,7 @@
             <img ref="charImage" :src="currentImage" :alt="char?.name" />
         </div>
         <div class="character-info">
-            <h3 class="character-name">{{ currentName }}</h3>
+            <h3 class="character-name">{{ currentName.replace('Ultra Instinc','Miggate no-goku`i') }}</h3>
             <div class="ki-values flex flex-col">
                 <p>Ki actual: <span id="ki-value">{{ currentKi }}</span></p>
                 <p>Ki máximo: <span id="max-ki-value">{{ char?.maxKi }}</span></p>
@@ -107,7 +107,7 @@
         border-radius: 15px;
         box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         overflow: hidden;
-        width: 300px;
+        width: 350px;
         transition: transform 0.3s ease;
         cursor:pointer;
     }

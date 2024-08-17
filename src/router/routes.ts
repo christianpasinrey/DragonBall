@@ -2,6 +2,7 @@ import HomeView from '../views/HomeView.vue'
 import CharactersView from '../views/CharactersView.vue';
 import PlanetsView from '../views/PlanetsView.vue';
 import AboutView from '../views/AboutView.vue';
+import MultimediaView from '../views/MultimediaView.vue';
 
 export const routes =  [
     {
@@ -18,6 +19,11 @@ export const routes =  [
       path: '/planets',
       name: 'planets',
       component: PlanetsView
+    },
+    {
+      path: '/multimedia',
+      name: 'multimedia',
+      component: MultimediaView
     },
     {
       path: '/about',

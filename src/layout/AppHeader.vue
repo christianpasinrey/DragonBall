@@ -6,11 +6,12 @@ const global = useGlobalStore();
 
 </script>
 <template>
-    <header class="flex w-full items-center content-center align-middle justify-between px-6 py-3 sticky top-0 left-0 right-0 z-[999] bg-slate-900">
-        <nav class="hidden md:flex mr-auto w-fit gap-6">
+    <header class="flex w-full items-center content-center align-middle justify-between px-6 md:px-12 py-3 sticky top-0 left-0 right-0 z-[999] bg-slate-900">
+        <nav class="hidden md:flex mr-auto w-fit gap-12">
             <RouterLink class="text-white text-3xl font-thin font-saiyan tracking-wider" to="/">Inicio</RouterLink>
             <RouterLink class="text-white text-3xl font-thin font-saiyan tracking-wider" to="/characters">Personajes</RouterLink>
             <RouterLink class="text-white text-3xl font-thin font-saiyan tracking-wider" to="/planets">Planetas</RouterLink>
+            <RouterLink class="text-white text-3xl font-thin font-saiyan tracking-wider" to="/multimedia">Multimedia</RouterLink>
             <!-- <RouterLink class="text-white text-md uppercase font-semibold" to="/about"></RouterLink> -->
         </nav>
 
