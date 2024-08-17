@@ -157,8 +157,8 @@
     });
 </script>
 <template>
-    <div class="flex flex-col justify-center items-center content-center w-screen gap-4">
-        <input type="search" placeholder="Buscar personaje" class="w-[300px] p-2 rounded-md border-b bg-[rgb(255,255,255,0.6)] focus:outline-none focus:border-none text-black" v-model="searchstring" @input.prevent="handleSearchCharacter"/>
+    <div class="flex flex-col justify-center items-center content-center w-full gap-4">
+        <input type="search" placeholder="Buscar personaje" class="w-full p-2 rounded-md" v-model="searchstring" @input.prevent="handleSearchCharacter"/>
         <transition
             name="character"
             @before-enter="beforeEnter"
@@ -190,7 +190,7 @@
                 :key="`link-${index}`"
                 :disabled="link.link === ''"
                 @click="handlePage(link.key)"
-                class="bg-[rgb(0,0,0,0.2)] p-2 rounded-full hover:bg-[rgba(230,206,74,0.76)] hover:scale-105 hover:ring-2 hover:ring-offset-1 hover:ring-orange-400 transition-all ease-in-out duration-300"
+                class="bg-[rgb(255,255,255,0.5)] p-2 rounded-full"
                 >
                 <svg
                     v-if="link.key === 'previous'"
