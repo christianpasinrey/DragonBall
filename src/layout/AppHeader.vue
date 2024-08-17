@@ -6,11 +6,11 @@ const global = useGlobalStore();
 
 </script>
 <template>
-    <header class="flex w-full items-center content-center align-middle justify-between px-6 py-3 sticky top-0 left-0 right-0 z-[999]">
+    <header class="flex w-full items-center content-center align-middle justify-between px-6 py-3 sticky top-0 left-0 right-0 z-[999] bg-slate-900">
         <nav class="hidden md:flex mr-auto w-fit gap-6">
-            <RouterLink class="text-slate-700 text-3xl font-thin font-saiyan tracking-wider" to="/">Inicio</RouterLink>
-            <RouterLink class="text-slate-700  text-3xl font-thin font-saiyan tracking-wider" to="/characters">Personajes</RouterLink>
-            <RouterLink class="text-slate-700 text-3xl font-thin font-saiyan tracking-wider" to="/planets">Planetas</RouterLink>
+            <RouterLink class="text-white text-3xl font-thin font-saiyan tracking-wider" to="/">Inicio</RouterLink>
+            <RouterLink class="text-white text-3xl font-thin font-saiyan tracking-wider" to="/characters">Personajes</RouterLink>
+            <RouterLink class="text-white text-3xl font-thin font-saiyan tracking-wider" to="/planets">Planetas</RouterLink>
             <!-- <RouterLink class="text-white text-md uppercase font-semibold" to="/about"></RouterLink> -->
         </nav>
 
@@ -50,11 +50,6 @@ const global = useGlobalStore();
     filter: drop-shadow(1px 1px 5px #000000); /* Sombra negra, con desplazamiento y desenfoque mayores */
     height: 40px;
     width: auto;
-  }
-
-  header{
-    background: linear-gradient(135deg, rgba(255,165,0,1) 0%, rgb(251, 94, 37) 50%, rgb(39, 10, 0));
-    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
   }
 
   @keyframes fade {
