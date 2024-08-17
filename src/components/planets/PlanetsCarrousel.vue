@@ -27,14 +27,12 @@
     });
 
     const handleResize = () => {
-        if(window.innerWidth < 600){
+        if(window.innerWidth < 480){
             limit.value = 1;
         }else if(window.innerWidth < 1024){
             limit.value = 2;
-        }else if(window.innerWidth < 1440){
-            limit.value = 3;
         }else{
-            limit.value = 4;
+            limit.value = 3;
         }
         clearTimeout(timeout.value);
         timeout.value = setTimeout(() => {
