@@ -18,7 +18,7 @@
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background: radial-gradient(circle, transparent 0%, rgba(255, 166, 0, 0.4) 70%, rgba(240, 239, 237, 0) 80%);
+  background: radial-gradient(circle, transparent 0%, rgba(0, 204, 255, 0.4) 70%, rgba(254, 254, 254, 0) 80%);
   opacity: 0;
   transition: all 0.3s ease-in-out;
 }
@@ -45,6 +45,6 @@
   transition: all 0.3s ease-in-out;
 }
 .github-icon:hover {
-  filter: drop-shadow(0 0 10px rgba(255,165,0,0.6));
+  filter: drop-shadow(0 0 10px rgba(40, 133, 239, 0.6));
 }
 </style>
