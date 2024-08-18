@@ -50,7 +50,6 @@
         links.value.find((link: { key: string; }) => link.key === 'next').link = data.links.next;
         links.value.find((link: { key: string; }) => link.key === 'previous').link = data.links.previous;
         meta.value = data.meta;
-        console.log(links.value);
     }
 
     const changePage = async (key: string) => {
