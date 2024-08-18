@@ -1,5 +1,6 @@
 @import './css/forms.css';
 @import './css/items.css';
+@import './css/html.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
