@@ -22,7 +22,7 @@
         </div>
       </div>
       <div class="flex flex-col w-full md:w-1/2 box items-center content-center align-middle justify-center p-4 rounded-r-md rounded-l-none">
-        
+        <p class="font-saiyan tracking-wider text-[54px] text-yellow-400 welcome-text">Bienvenido!</p>
       </div>
     </div>
   </main>
@@ -31,5 +31,7 @@
 .logo{
   filter: drop-shadow(1px 1px 10px #000000); /* Sombra negra, con desplazamiento y desenfoque mayores */
 }
-
+.welcome-text{
+  filter: drop-shadow(1px 1px 10px #000000);
+}
 </style>
