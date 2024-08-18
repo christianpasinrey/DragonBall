@@ -1,18 +1,19 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
 import { useGlobalStore } from '@/stores/global';
-
+import DarkModeButton from '@/components/buttons/DarkModeButton.vue';
 const global = useGlobalStore();
 
 </script>
 <template>
-    <header class="flex w-full items-center content-center align-middle justify-between px-6 md:px-12 py-3 sticky top-0 left-0 right-0 z-[999] bg-slate-900">
+    <header class="flex w-full items-center content-center align-middle justify-between px-6 md:px-12 py-3 sticky top-0 left-0 right-0 z-[999] bg-db-orange dark:bg-slate-800">
         <nav class="hidden md:flex mr-auto w-fit gap-12">
             <RouterLink class="text-white text-3xl font-thin font-saiyan tracking-wider" to="/">Inicio</RouterLink>
             <RouterLink class="text-white text-3xl font-thin font-saiyan tracking-wider" to="/characters">Personajes</RouterLink>
             <RouterLink class="text-white text-3xl font-thin font-saiyan tracking-wider" to="/planets">Planetas</RouterLink>
             <RouterLink class="text-white text-3xl font-thin font-saiyan tracking-wider" to="/multimedia">Multimedia</RouterLink>
             <!-- <RouterLink class="text-white text-md uppercase font-semibold" to="/about"></RouterLink> -->
+             <DarkModeButton :global="global"/>
         </nav>
 
         <div class="logo-wrapper">
@@ -22,8 +23,6 @@ const global = useGlobalStore();
                 src="@/assets/img/db-logo.png" />
         </div>
 
-       
-       
 
         <button class="md:hidden" @click.prevent="global.toggleMenu">
             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
