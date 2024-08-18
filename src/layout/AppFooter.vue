@@ -14,7 +14,7 @@
                     <img src="@/assets/img/logo_dragonballapi.webp" height="98" width="98" alt="DB API logo"> 
                 </a>
                 <span class="hidden sm:block">de &nbsp;
-                <a class="text-orange-500 hover:text-yellow-600" href="https://www.linkedin.com/in/antonio-alvarez-lopez/">Antonio Alvarez Lopez</a></span>
+                <a class="dark:text-orange-500 dark:hover:text-yellow-600 text-red-800 hover:text-blue-800" href="https://www.linkedin.com/in/antonio-alvarez-lopez/">Antonio Alvarez Lopez</a></span>
             </p>
         </div>
     </footer>
