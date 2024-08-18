@@ -46,7 +46,6 @@
         params.append('page', meta.value.currentPage);
         const { data } = await getPlanets(params);
         planets.value = data.items;
-        //filter links to only have next and previous
         links.value.find((link: { key: string; }) => link.key === 'next').link = data.links.next;
         links.value.find((link: { key: string; }) => link.key === 'previous').link = data.links.previous;
         meta.value = data.meta;
