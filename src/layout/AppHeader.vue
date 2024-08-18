@@ -15,7 +15,7 @@ const global = useGlobalStore();
             <!-- <RouterLink class="text-white text-md uppercase font-semibold" to="/about"></RouterLink> -->
              <DarkModeButton :global="global"/>
         </nav>
-
+        <DarkModeButton class="md:hidden" :global="global"/>
         <div class="logo-wrapper">
             <img 
                 alt="Dragon ball logo" 
