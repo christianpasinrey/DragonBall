@@ -26,7 +26,7 @@
     });
 </script>
 <template>
-    <div class="relative overflow-hidden flex flex-wrap h-full w-full gap-4 justify-start items-center content-center align-middle overflow-y-auto bg-transparent py-36 md:px-24">
+    <main class="relative overflow-hidden flex flex-wrap h-full min-h-[90dvh] w-full gap-4 justify-start items-center content-center align-middle overflow-y-auto bg-transparent py-36 md:px-24">
         <div class="img-wrapper" 
             v-for="image in images" 
             :key="image" 
@@ -43,7 +43,7 @@
                 <span class="text-white text-sm font-semibold">Descargar</span>
             </div>
         </div>
-    </div>
+    </main>
 </template>
 <style scoped>
  img{
