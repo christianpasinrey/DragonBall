@@ -3,7 +3,7 @@
     const GithubIcon = defineAsyncComponent(() => import('@/components/icons/GithubIcon.vue'));
 </script>
 <template>
-     <footer class="absolute bottom-0 left-0 right-0 bg-db-orange dark:bg-slate-800 py-2">
+     <footer class="absolute bottom-0 left-0 right-0 bg-db-orange dark:bg-slate-800 py-2 z-10">
         <div class="relative flex w-full justify-center items-center content-center align-middle">
             <a href="https://github.com/christianpasinrey/DragonBall" target="_blank" class="fixed bottom-4 right-5 flex text-white hover:text-orange-400 transition-all ease-in-out duration-300">
                 <GithubIcon/>
