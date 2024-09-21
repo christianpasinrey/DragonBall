@@ -12,7 +12,7 @@ const handleLanguageChange = (lang: string) => {
 
 const languageOptions = ref<HTMLElement | null>(null)
 
-const handleShowLanguageOptions = (e) => {
+const handleShowLanguageOptions = (e:Event) => {
     console.log(languageOptions.value)
     e.stopPropagation()
     languageOptions.value?.classList.toggle('hidden')
