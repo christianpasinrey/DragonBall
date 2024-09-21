@@ -11,7 +11,7 @@ export function generateRobotsTxt() {
     }
   })
 
-  robotsTxt += "Sitemap: https://tudominio.com/sitemap.xml\n"
+  robotsTxt += "Sitemap: https://db.christianpasinrey.es/sitemap.xml\n"
   console.log(robotsTxt)
   return robotsTxt
 }

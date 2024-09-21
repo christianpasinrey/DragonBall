@@ -8,22 +8,40 @@ export const routes =  [
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomeView,
+      meta: {
+        title: 'Home',
+        description: 'Home page',
+        disallow: true
+        // meta tags
+      }
     },
     {
       path: '/characters',
       name: 'characters',
-      component: CharactersView
+      component: CharactersView,
+      meta: {
+        title: 'Characters',
+        description: 'Characters page',
+      }
     },
     {
       path: '/planets',
       name: 'planets',
-      component: PlanetsView
+      component: PlanetsView,
+      meta: {
+        title: 'Planets',
+        description: 'Planets page',
+      }
     },
     {
       path: '/multimedia',
       name: 'multimedia',
-      component: MultimediaView
+      component: MultimediaView,
+      meta: {
+        title: 'Multimedia',
+        description: 'Multimedia page',
+      }
     },
     {
       path: '/about',
@@ -31,6 +49,10 @@ export const routes =  [
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: AboutView
+      component: AboutView,
+      meta: {
+        title: 'About',
+        description: 'About page',
+      }
     }
 ];
