@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <main class="relative overflow-hidden grid h-full w-full place-items-center bg-transparent py-36 md:py-36 px-12 md:px-24">
+  <main class="relative overflow-hidden grid h-full min-h-[90dvh] w-full place-items-center bg-transparent py-36 md:py-36 px-12 md:px-24">
     <!-- <div class="flex flex-col w-full md:w-1/3 px-8">
       <div class="box">
         Hola
